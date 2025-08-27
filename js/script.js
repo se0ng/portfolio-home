@@ -1,19 +1,3 @@
-//     safari
-document.addEventListener("DOMContentLoaded", () => {
-  const isDesktop = window.innerWidth >= 768;
-  const isSafari = /safari/i.test(navigator.userAgent) && !/chrome|android/i.test(navigator.userAgent) && !/mobile/i.test(navigator.userAgent);
-
-  if (isDesktop) {
-    // PCではCSSでスクロール
-    document.body.classList.add("desktop-scroll");
-  } else {
-    // スマホではJS無限スクロール
-    document.body.classList.add("mobile-scroll");
-    startJSScroll(); // 既存のrequestAnimationFrameループ
-  }
-});
-
-
 //     open menu
 jQuery(function ($) {
   $('.menu-btn').on('click', function () {
@@ -39,9 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
   tagInner.style.willChange = "transform";
   tagInner.style.transform = "translateZ(0)";
 
+  // タグを2セットに複製
   tagInner.innerHTML += tagInner.innerHTML;
   const tags = Array.from(tagInner.children);
 
+  // 元セット幅を計算する関数（小数も考慮）
   function calcTotalWidth() {
     const style = getComputedStyle(tagInner);
     const gap = parseFloat(style.gap) || 0;
@@ -52,28 +38,27 @@ document.addEventListener("DOMContentLoaded", () => {
       return tag.getBoundingClientRect().width + gap + spanMargin;
     });
 
+    // 元セット分の合計幅
     return tagWidths.slice(0, tags.length / 2).reduce((a, b) => a + b, 0);
   }
 
   let totalWidth = calcTotalWidth();
   let pos = 0;
-  const speed = 60; // px/秒（ここを調整）
-  let lastTime = performance.now();
+  const speed = 1; // px/frame
 
-  function loop(now) {
-    const delta = (now - lastTime) / 1000; // 経過秒数
-    lastTime = now;
+  function loop() {
+    pos -= speed;
 
-    pos -= speed * delta;
-
+    // 元セット分の幅を超えたら正確にリセット
     if (pos <= -totalWidth) pos += totalWidth;
 
     tagInner.style.transform = `translateX(${pos}px)`;
     requestAnimationFrame(loop);
   }
 
-  requestAnimationFrame(loop);
+  loop();
 
+  // リサイズ時に totalWidth を再計算
   window.addEventListener("resize", () => {
     totalWidth = calcTotalWidth();
   });
