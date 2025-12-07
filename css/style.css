@@ -1,8 +1,7 @@
 @charset "utf-8";
 
 /* Variable */
-@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
 
 *,
 *::before,
@@ -20,7 +19,7 @@ body {
 
 body {
    background-color: #f2f3f4;
-   font-family: "DM Sans";
+   font-family: "Figtree";
    font-optical-sizing: auto;
    font-weight: 400;
    font-style: normal;
@@ -241,7 +240,6 @@ a:hover {
 /* TAG */
 .tag-list {
    width: 80vw;
-   font-family: "Sour Gummy";
    margin: 0 auto;
    position: relative;
    overflow: hidden;
